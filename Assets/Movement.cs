@@ -5,6 +5,12 @@ class Movement : MonoBehaviour
     [SerializeField] float _speed = 0.01f;
 
     Collider2D _current;
+    readonly KeyCode[] _keys = new KeyCode[] { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D };
+    Vector3[] _directions;
+
+    void Awake() {
+        _directions = new Vector3[] { Vector3.up * _speed, Vector3.left * _speed, Vector3.down * _speed, Vector3.right * _speed };
+    }
 
     void Update() {
         if (AlertBox.Instance.IsOpen)
@@ -17,22 +23,18 @@ class Movement : MonoBehaviour
             return;
 
         Vector3 translate = Vector3.zero;
-        if (Input.GetKey(KeyCode.W)) {
-            translate += Vector3.up * _speed;
-        } if (Input.GetKey(KeyCode.A)) {
-            translate += Vector3.left * _speed;
-        } if (Input.GetKey(KeyCode.S)) {
-            translate += Vector3.down * _speed;
-        } if (Input.GetKey(KeyCode.D)) {
-            translate += Vector3.right * _speed;
+        for (int i = 0; i < 4; ++i) {
+            var pressed = Input.GetKey(_keys[i]);
+            if (pressed)
+                translate += _directions[i];
         }
+        transform.Translate(translate);
 
         if (Input.GetKey(KeyCode.Space)) {
             if (_current == null)
                 return;
             Talk.Instance.Open("Jeff", "Hello World!");
         }
-        transform.Translate(translate);
     }
 
     void OnTriggerEnter2D(Collider2D other) {
