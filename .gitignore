@@ -6,5 +6,7 @@ UserSettings
 bin
 obj
 
+.idea
+
 *.csproj
 

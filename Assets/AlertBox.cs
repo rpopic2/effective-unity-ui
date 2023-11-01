@@ -10,6 +10,8 @@ class AlertBox : Singleton<AlertBox>
     [SerializeField] Button _ok;
     Action<bool> _callback;
 
+    public bool IsOpen { get; private set; }
+
     void Awake() {
         SingletonInit(this);
         _cancel.onClick.AddListener(OnCancelClick);
@@ -20,16 +22,19 @@ class AlertBox : Singleton<AlertBox>
         _text.text = message;
         _callback = onAnswer;
         gameObject.SetActive(true);
+        IsOpen = true;
     }
 
     void OnCancelClick() {
         gameObject.SetActive(false);
         _callback.Invoke(false);
+        IsOpen = false;
     }
 
     void OnOkClick() {
         gameObject.SetActive(false);
         _callback.Invoke(true);
+        IsOpen = false;
     }
 }
 

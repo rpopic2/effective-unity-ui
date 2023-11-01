@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -11,6 +10,8 @@ class AsyncAlertBox : Singleton<AsyncAlertBox>
     [SerializeField] Button _ok;
     TaskCompletionSource<bool> _tcs;
 
+    public bool IsOpen { get; private set; }
+
     void Awake() {
         SingletonInit(this);
         _cancel.onClick.AddListener(OnCancelClick);
@@ -21,7 +22,10 @@ class AsyncAlertBox : Singleton<AsyncAlertBox>
         _tcs = new();
         _text.text = message;
         gameObject.SetActive(true);
-        return await _tcs.Task;
+        IsOpen = true;
+        var ret = await _tcs.Task;
+        IsOpen = false;
+        return ret;
     }
 
     void OnCancelClick() {
