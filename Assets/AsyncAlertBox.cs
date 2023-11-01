@@ -22,7 +22,9 @@ class AsyncAlertBox : Singleton<AsyncAlertBox>
         _tcs = new();
         _text.text = message;
         gameObject.SetActive(true);
+        using var focus = new FocusToken(this);
         IsOpen = true;
+
         var ret = await _tcs.Task;
         IsOpen = false;
         return ret;

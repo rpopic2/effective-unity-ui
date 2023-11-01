@@ -1,6 +1,6 @@
 using UnityEngine;
 
-class Movement : MonoBehaviour
+class Movement : Singleton<Movement>
 {
     [SerializeField] float _speed = 0.01f;
 
@@ -9,17 +9,14 @@ class Movement : MonoBehaviour
     Vector3[] _directions;
 
     void Awake() {
+        SingletonInit(this);
         _directions = new Vector3[] { Vector3.up * _speed, Vector3.left * _speed, Vector3.down * _speed, Vector3.right * _speed };
     }
 
     void Update() {
         if (AlertBox.Instance.IsOpen)
             return;
-        if (AsyncAlertBox.Instance.IsOpen)
-            return;
         if (Menu.Instance.gameObject.activeInHierarchy)
-            return;
-        if (Talk.Instance.gameObject.activeInHierarchy)
             return;
 
         Vector3 translate = Vector3.zero;
