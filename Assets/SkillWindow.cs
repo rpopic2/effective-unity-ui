@@ -1,18 +1,25 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-class SkillWindow : MonoBehaviour
+class SkillWindow : Singleton<SkillWindow>
 {
     [SerializeField] Button _close;
+    [SerializeField] Button _open;
     [SerializeField] Button _skillLvUp;
 
     void Awake() {
+        SingletonInit(this);
         _close.onClick.AddListener(OnCloseClick);
+        _open.onClick.AddListener(OnOpenClick);
         _skillLvUp.onClick.AddListener(OnSkillLvUpClick);
     }
 
     void OnCloseClick() {
-        gameObject.SetActive(false);
+        Movement.Instance.CloseWindow(gameObject);
+    }
+
+    void OnOpenClick() {
+        Movement.Instance.OpenWindow(gameObject);
     }
 
     async void OnSkillLvUpClick() {

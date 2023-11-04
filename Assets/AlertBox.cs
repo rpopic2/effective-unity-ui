@@ -25,6 +25,13 @@ class AlertBox : Singleton<AlertBox>
         IsOpen = true;
     }
 
+    void Update() {
+        if (Input.GetKey(KeyCode.Escape))
+            OnCancelClick();
+        else if (Input.GetKey(KeyCode.Return))
+            OnOkClick();
+    }
+
     void OnCancelClick() {
         gameObject.SetActive(false);
         _callback.Invoke(false);

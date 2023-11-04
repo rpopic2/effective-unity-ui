@@ -28,6 +28,13 @@ class AsyncAlertBox : Singleton<AsyncAlertBox>
         return ret;
     }
 
+    void Update() {
+        if (Input.GetKey(KeyCode.Escape))
+            OnCancelClick();
+        else if (Input.GetKey(KeyCode.Return))
+            OnOkClick();
+    }
+
     void OnCancelClick() {
         _tcs.SetResult(false);
         gameObject.SetActive(false);

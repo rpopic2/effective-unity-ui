@@ -1,24 +1,25 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-class InventoryWindow : MonoBehaviour
+class InventoryWindow : Singleton<InventoryWindow>
 {
     [SerializeField] Button _close;
     [SerializeField] Button _open;
     [SerializeField] Button _useItem;
 
     void Awake() {
+        SingletonInit(this);
         _close.onClick.AddListener(OnCloseClick);
         _open.onClick.AddListener(OnOpenClick);
         _useItem.onClick.AddListener(OnItemUseClick);
     }
 
     void OnCloseClick() {
-        gameObject.SetActive(false);
+        Movement.Instance.CloseWindow(gameObject);
     }
 
     void OnOpenClick() {
-        gameObject.SetActive(true);
+        Movement.Instance.OpenWindow(gameObject);
     }
 
     void OnItemUseClick() {

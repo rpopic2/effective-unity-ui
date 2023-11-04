@@ -1576,7 +1576,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 519167179}
-  - component: {fileID: 519167183}
   - component: {fileID: 519167182}
   - component: {fileID: 519167181}
   - component: {fileID: 519167180}
@@ -1690,20 +1689,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &519167183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519167178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba02fc834914747669435115aab3c5e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _openButton: {fileID: 519167182}
-  _target: {fileID: 1310267415}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1862,6 +1847,7 @@ MonoBehaviour:
   - {fileID: 1827517240}
   - {fileID: 785507757}
   - {fileID: 100157318}
+  - {fileID: 1310267415}
 --- !u!4 &629493696
 Transform:
   m_ObjectHideFlags: 0
@@ -3482,6 +3468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _close: {fileID: 1093326452}
+  _open: {fileID: 519167182}
   _skillLvUp: {fileID: 1942517742}
 --- !u!114 &1310267418
 MonoBehaviour:

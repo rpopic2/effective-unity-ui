@@ -13,6 +13,12 @@ class Talk : Singleton<Talk>
         _next.onClick.AddListener(OnNextClick);
     }
 
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            OnNextClick();
+        }
+    }
+
     public void Open(string talker, string content) {
         _talker.text = talker;
         _content.text = content;
@@ -20,7 +26,8 @@ class Talk : Singleton<Talk>
     }
 
     void OnNextClick() {
-        gameObject.SetActive(false);
+        if (!Menu.Instance.gameObject.activeInHierarchy)
+            gameObject.SetActive(false);
     }
 }
 

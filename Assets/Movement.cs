@@ -1,15 +1,31 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-class Movement : MonoBehaviour
+class Movement : Singleton<Movement>
 {
+    const int MOVE_KEYS_COUNT = 4;
     [SerializeField] float _speed = 0.01f;
 
-    Collider2D _current;
+    readonly List<GameObject> CurrentWindow = new();
+    Collider2D _currentNPC;
+
     readonly KeyCode[] _keys = new KeyCode[] { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D };
     Vector3[] _directions;
 
     void Awake() {
+        SingletonInit(this);
         _directions = new Vector3[] { Vector3.up * _speed, Vector3.left * _speed, Vector3.down * _speed, Vector3.right * _speed };
+    }
+
+    public void OpenWindow(GameObject window) {
+        window.SetActive(true);
+        CurrentWindow.Add(window);
+    }
+
+    public void CloseWindow(GameObject window) {
+        window.SetActive(false);
+        CurrentWindow.Remove(window);
     }
 
     void Update() {
@@ -17,34 +33,45 @@ class Movement : MonoBehaviour
             return;
         if (AsyncAlertBox.Instance.IsOpen)
             return;
+
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            if (!CurrentWindow.Any())
+                Menu.Instance.Open();
+            else
+                CloseWindow(CurrentWindow.Last());
+            return;
+        }
+
         if (Menu.Instance.gameObject.activeInHierarchy)
             return;
         if (Talk.Instance.gameObject.activeInHierarchy)
             return;
 
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            if (_currentNPC != null)
+                Talk.Instance.Open("Jeff", "Hello World!");
+            return;
+        }
+
+        Move();
+    }
+
+    void Move() {
         Vector3 translate = Vector3.zero;
-        for (int i = 0; i < 4; ++i) {
+        for (int i = 0; i < MOVE_KEYS_COUNT; ++i) {
             var pressed = Input.GetKey(_keys[i]);
             if (pressed)
                 translate += _directions[i];
         }
         transform.Translate(translate);
-
-        if (Input.GetKey(KeyCode.Space)) {
-            if (_current == null)
-                return;
-            Talk.Instance.Open("Jeff", "Hello World!");
-        }
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        print("enter");
-        _current = other;
+        _currentNPC = other;
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        print("exit");
-        _current = null;
+        _currentNPC = null;
     }
 }
 
